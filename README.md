@@ -1,4 +1,4 @@
-# LaCuenta Porfa
+# La cuenta, porfa
 
 Divide la cuenta del restobar con tus amigas: sube la foto de la boleta, cada
 quien marca cuánto consumió desde su celular, y la app calcula el total por
@@ -147,7 +147,7 @@ pruébala contra la URL ya desplegada en Vercel/Netlify.
 **Android (Chrome)**
 
 1. Abre la URL en Chrome.
-2. Aparece un banner dentro de la app ("Instalar LaCuenta Porfa") con un botón
+2. Aparece un banner dentro de la app ("Instalar La cuenta, porfa") con un botón
    **Instalar**, o desde el menú ⋮ → **Instalar app** / **Agregar a
    pantalla de inicio**.
 3. Ábrela desde el ícono: se abre en modo `standalone`, sin barra de

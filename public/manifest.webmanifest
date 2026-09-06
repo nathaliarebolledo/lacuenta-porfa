@@ -1,6 +1,6 @@
 {
-  "name": "LaCuenta Porfa",
-  "short_name": "LaCuenta Porfa",
+  "name": "La cuenta, porfa",
+  "short_name": "La cuenta, porfa",
   "description": "Divide la cuenta del restobar con tus amigos: sube la boleta, cada quien marca lo suyo.",
   "start_url": "/",
   "scope": "/",

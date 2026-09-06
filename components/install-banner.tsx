@@ -78,7 +78,7 @@ export function InstallBanner() {
     <ThemedView style={[styles.banner, { backgroundColor: card, borderColor: border }]}>
       <IconSymbol name="arrow.down.to.line" size={22} color={tint} />
       <ThemedView style={{ flex: 1, gap: 2 }}>
-        <ThemedText type="defaultSemiBold">Instala LaCuenta Porfa</ThemedText>
+        <ThemedText type="defaultSemiBold">Instala La cuenta, porfa</ThemedText>
         {ios ? (
           <ThemedText type="caption">
             En Safari: toca Compartir → “Agregar a pantalla de inicio”.

@@ -42,7 +42,7 @@ export default function ShareEventScreen() {
     if (!link) return;
     const message = `Hola! Te comparto la cuenta de "${eventName}" para que marques tu consumo: ${link}`;
     if (Platform.OS === 'web' && (navigator as any).share) {
-      await (navigator as any).share({ title: 'LaCuenta Porfa', text: message, url: link });
+      await (navigator as any).share({ title: 'La cuenta, porfa', text: message, url: link });
     } else {
       await Share.share({ message });
     }

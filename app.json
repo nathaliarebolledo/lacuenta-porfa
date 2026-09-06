@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "LaCuenta Porfa",
+    "name": "La cuenta, porfa",
     "slug": "lacuenta-porfa",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -25,8 +25,8 @@
     "web": {
       "output": "single",
       "favicon": "./assets/images/favicon.png",
-      "name": "LaCuenta Porfa",
-      "shortName": "LaCuenta Porfa",
+      "name": "La cuenta, porfa",
+      "shortName": "La cuenta, porfa",
       "themeColor": "#3B82F6",
       "backgroundColor": "#F9FAFB",
       "display": "standalone",
