@@ -1,13 +1,26 @@
 # La cuenta, porfa
 
+![Expo](https://img.shields.io/badge/Expo-SDK%2057-000020?logo=expo&logoColor=white)
+![React Native](https://img.shields.io/badge/React%20Native-Web%20%2B%20Native-61DAFB?logo=react&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-Auth%20%7C%20Postgres%20%7C%20Storage-3ECF8E?logo=supabase&logoColor=white)
+![Vercel](https://img.shields.io/badge/Deploy-Vercel-000000?logo=vercel&logoColor=white)
+
 Divide la cuenta del restobar con tus amigas: sube la foto de la boleta, cada
 quien marca cuánto consumió desde su celular, y la app calcula el total por
 persona (con propina) igual que la planilla de Google Sheets que reemplaza.
 
+**🔗 Demo en vivo:** [lacuenta-porfa.vercel.app](https://lacuenta-porfa.vercel.app)
+
 App universal con [Expo Router](https://docs.expo.dev/router/introduction/)
 (React Native + web), pensada para distribuirse **solo como PWA instalable**
 por ahora, con [Supabase](https://supabase.com) como backend (Auth, Postgres
-con Row Level Security, Storage).
+con Row Level Security, Storage) e IA (Claude) para leer la boleta
+automáticamente.
+
+<p align="center">
+  <img src="docs/screenshots/login.png" alt="Pantalla de inicio de La cuenta, porfa" width="320" />
+</p>
 
 ## Estado del proyecto
 
