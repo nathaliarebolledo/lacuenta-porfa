@@ -1,4 +1,4 @@
-# Split Bill
+# LaCuenta Porfa
 
 Divide la cuenta del restobar con tus amigas: sube la foto de la boleta, cada
 quien marca cuánto consumió desde su celular, y la app calcula el total por
@@ -76,8 +76,8 @@ pero sin implementar — se activan cuando se pidan explícitamente.
    - Pega el Client ID y Client Secret de Google en el panel de Supabase.
 4. En **Authentication → URL Configuration**, agrega la URL donde vas a
    correr/desplegar la app (ej. `http://localhost:8081`,
-   `https://split-bill.vercel.app`) a **Redirect URLs**, además del dominio
-   final que uses en Vercel/Netlify.
+   `https://lacuenta-porfa.vercel.app`) a **Redirect URLs**, además del
+   dominio final que uses en Vercel/Netlify.
 5. Copia **Project URL** y **anon public key** desde
    **Project Settings → API** — los necesitas en el siguiente paso.
 
@@ -94,7 +94,7 @@ EXPO_PUBLIC_SUPABASE_URL=https://TU_PROYECTO.supabase.co
 EXPO_PUBLIC_SUPABASE_ANON_KEY=tu-anon-key
 # Opcional: dominio final donde se despliega la web, para que los links de
 # invitado funcionen siempre aunque se generen desde otra URL/dispositivo.
-# EXPO_PUBLIC_WEB_URL=https://split-bill.vercel.app
+# EXPO_PUBLIC_WEB_URL=https://lacuenta-porfa.vercel.app
 ```
 
 La `anon key` es pública a propósito (así funciona Supabase): la seguridad
@@ -147,7 +147,7 @@ pruébala contra la URL ya desplegada en Vercel/Netlify.
 **Android (Chrome)**
 
 1. Abre la URL en Chrome.
-2. Aparece un banner dentro de la app ("Instalar Split Bill") con un botón
+2. Aparece un banner dentro de la app ("Instalar LaCuenta Porfa") con un botón
    **Instalar**, o desde el menú ⋮ → **Instalar app** / **Agregar a
    pantalla de inicio**.
 3. Ábrela desde el ícono: se abre en modo `standalone`, sin barra de

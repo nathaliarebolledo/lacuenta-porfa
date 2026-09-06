@@ -1,19 +1,19 @@
 {
   "expo": {
-    "name": "Split Bill",
-    "slug": "split-bill",
+    "name": "LaCuenta Porfa",
+    "slug": "lacuenta-porfa",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "splitbill",
+    "scheme": "lacuentaporfa",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.splitbill.app"
+      "bundleIdentifier": "com.lacuentaporfa.app"
     },
     "android": {
-      "package": "com.splitbill.app",
+      "package": "com.lacuentaporfa.app",
       "adaptiveIcon": {
         "backgroundColor": "#F9FAFB",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
@@ -25,8 +25,8 @@
     "web": {
       "output": "single",
       "favicon": "./assets/images/favicon.png",
-      "name": "Split Bill",
-      "shortName": "SplitBill",
+      "name": "LaCuenta Porfa",
+      "shortName": "LaCuenta Porfa",
       "themeColor": "#3B82F6",
       "backgroundColor": "#F9FAFB",
       "display": "standalone",

@@ -7,7 +7,7 @@ import { IconSymbol } from '@/components/ui/icon-symbol';
 import { Radius, Spacing } from '@/constants/theme';
 import { useThemeColor } from '@/hooks/use-theme-color';
 
-const DISMISSED_KEY = 'split-bill:install-banner-dismissed';
+const DISMISSED_KEY = 'lacuenta-porfa:install-banner-dismissed';
 
 function isStandalone() {
   if (Platform.OS !== 'web' || typeof window === 'undefined') return true;
@@ -78,7 +78,7 @@ export function InstallBanner() {
     <ThemedView style={[styles.banner, { backgroundColor: card, borderColor: border }]}>
       <IconSymbol name="arrow.down.to.line" size={22} color={tint} />
       <ThemedView style={{ flex: 1, gap: 2 }}>
-        <ThemedText type="defaultSemiBold">Instala Split Bill</ThemedText>
+        <ThemedText type="defaultSemiBold">Instala LaCuenta Porfa</ThemedText>
         {ios ? (
           <ThemedText type="caption">
             En Safari: toca Compartir → “Agregar a pantalla de inicio”.

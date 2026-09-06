@@ -44,7 +44,7 @@ export default function GuestEventScreen() {
   const [updatingPayment, setUpdatingPayment] = useState(false);
   const border = useThemeColor({}, 'border');
 
-  const storageKey = `split-bill:guest:${token}`;
+  const storageKey = `lacuenta-porfa:guest:${token}`;
 
   const selectParticipant = async (id: string) => {
     setParticipantId(id);

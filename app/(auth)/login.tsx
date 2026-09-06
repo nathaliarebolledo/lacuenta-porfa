@@ -33,7 +33,7 @@ export default function LoginScreen() {
       <ThemedView style={styles.container}>
         <ThemedView style={styles.hero}>
           <Image source={require('@/assets/images/icon.png')} style={styles.logo} />
-          <ThemedText type="title">Split Bill</ThemedText>
+          <ThemedText type="title">LaCuenta Porfa</ThemedText>
           <ThemedText type="muted" style={styles.subtitle}>
             Divide la cuenta del restobar con tus amigos. Sube la boleta, cada quien marca lo suyo,
             y listo.

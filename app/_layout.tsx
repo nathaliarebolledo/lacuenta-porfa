@@ -18,7 +18,7 @@ function RootNavigator() {
       <ThemedView style={styles.splash}>
         <ActivityIndicator size="large" />
         <ThemedText type="muted" style={{ marginTop: 12 }}>
-          Cargando Split Bill…
+          Cargando LaCuenta Porfa…
         </ThemedText>
       </ThemedView>
     );
@@ -41,7 +41,7 @@ function RootNavigator() {
       </Stack.Protected>
 
       {/* Public: reachable with or without a session, no guard. */}
-      <Stack.Screen name="guest/[token]" options={{ headerShown: true, title: 'Split Bill' }} />
+      <Stack.Screen name="guest/[token]" options={{ headerShown: true, title: 'LaCuenta Porfa' }} />
     </Stack>
   );
 }

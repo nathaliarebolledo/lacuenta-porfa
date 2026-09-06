@@ -1,4 +1,4 @@
-// Split Bill — Phase 2: reads a receipt photo with Claude's vision API and
+// LaCuenta Porfa — Phase 2: reads a receipt photo with Claude's vision API and
 // proposes a product list (name + price) for the owner to review before
 // saving. Deployed as a Supabase Edge Function (Deno runtime).
 //

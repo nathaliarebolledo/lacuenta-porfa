@@ -1,7 +1,7 @@
 import { Platform } from 'react-native';
 
 /**
- * Split Bill palette — matches the look of our other Expo app (findmypet):
+ * LaCuenta Porfa palette — matches the look of our other Expo app (findmypet):
  * bright, white-card-on-light-gray, Tailwind-style semantic colors, soft
  * shadows instead of hard borders, and bold rounded-pill accents.
  */

@@ -11,5 +11,5 @@ export function getWebBaseUrl() {
   if (Platform.OS === 'web' && typeof window !== 'undefined') {
     return window.location.origin;
   }
-  return 'https://split-bill.example.com';
+  return 'https://lacuenta-porfa.vercel.app';
 }

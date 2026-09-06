@@ -28,7 +28,7 @@ const headInjection = `
     <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <meta name="apple-mobile-web-app-title" content="Split Bill" />
+    <meta name="apple-mobile-web-app-title" content="LaCuenta Porfa" />
     <meta name="mobile-web-app-capable" content="yes" />
   </head>`;
 
@@ -48,7 +48,7 @@ const swInjection = `
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', function () {
           navigator.serviceWorker.register('/sw.js').catch(function (err) {
-            console.warn('Split Bill: no se pudo registrar el service worker', err);
+            console.warn('LaCuenta Porfa: no se pudo registrar el service worker', err);
           });
         });
       }

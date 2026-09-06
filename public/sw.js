@@ -1,4 +1,4 @@
-// Split Bill service worker — caches the app shell so the PWA opens fast and
+// LaCuenta Porfa service worker — caches the app shell so the PWA opens fast and
 // keeps working (read-only, on cached data) with no connection. This is a
 // hand-rolled runtime cache, not a full offline-sync engine: writes (marking
 // consumption, uploading a receipt, changing payment status) still need a
@@ -10,7 +10,7 @@
 // cached index.html pointing at a bundle hash that no longer exists on the
 // server is exactly what causes an intermittent blank screen after an
 // update. Only content-hashed static assets are safe to serve cache-first.
-const CACHE_NAME = 'split-bill-shell-v2';
+const CACHE_NAME = 'lacuenta-porfa-shell-v1';
 
 self.addEventListener('install', (event) => {
   self.skipWaiting();
