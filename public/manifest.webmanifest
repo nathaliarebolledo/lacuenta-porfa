@@ -1,0 +1,32 @@
+{
+  "name": "Split Bill",
+  "short_name": "Split Bill",
+  "description": "Divide la cuenta del restobar con tus amigos: sube la boleta, cada quien marca lo suyo.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#F9FAFB",
+  "theme_color": "#3B82F6",
+  "orientation": "portrait",
+  "lang": "es-CL",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
