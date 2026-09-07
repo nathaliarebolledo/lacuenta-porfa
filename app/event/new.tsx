@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Alert, FlatList, Pressable, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { AddParticipantModal, type NewParticipant } from '@/components/add-participant-modal';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { Button } from '@/components/ui/button';
@@ -20,6 +21,8 @@ export default function NewEventScreen() {
   const [name, setName] = useState('');
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [extraParticipants, setExtraParticipants] = useState<NewParticipant[]>([]);
+  const [showAddParticipant, setShowAddParticipant] = useState(false);
   const [saving, setSaving] = useState(false);
   const border = useThemeColor({}, 'border');
   const tint = useThemeColor({}, 'tint');
@@ -78,6 +81,13 @@ export default function NewEventScreen() {
         email: c.email,
         is_owner: false,
       })),
+      ...extraParticipants.map((p) => ({
+        event_id: event.id,
+        contact_id: p.contactId,
+        name: p.name,
+        email: p.email,
+        is_owner: false,
+      })),
     ];
 
     const { error: participantsError } = await supabase.from('event_participants').insert(participantRows);
@@ -127,10 +137,42 @@ export default function NewEventScreen() {
           }}
         />
 
+        {extraParticipants.length ? (
+          <ThemedView style={{ gap: Spacing.xs, marginTop: Spacing.sm }}>
+            {extraParticipants.map((p, index) => (
+              <ThemedView key={`${p.name}-${index}`} style={[styles.contactRow, { borderColor: border }]}>
+                <ThemedText type="defaultSemiBold">{p.name}</ThemedText>
+                <Pressable
+                  onPress={() => setExtraParticipants((prev) => prev.filter((_, i) => i !== index))}
+                  hitSlop={8}>
+                  <IconSymbol name="xmark" size={18} color={tint} />
+                </Pressable>
+              </ThemedView>
+            ))}
+          </ThemedView>
+        ) : null}
+
+        <Pressable onPress={() => setShowAddParticipant(true)} style={styles.addParticipantRow}>
+          <IconSymbol name="plus.circle.fill" size={20} color={tint} />
+          <ThemedText style={{ color: tint, fontWeight: '600' }}>Agregar participante nuevo</ThemedText>
+        </Pressable>
+
         <ThemedView style={{ marginTop: Spacing.md }}>
           <Button label="Crear evento" onPress={create} loading={saving} />
         </ThemedView>
       </ThemedView>
+
+      {session ? (
+        <AddParticipantModal
+          visible={showAddParticipant}
+          onClose={() => setShowAddParticipant(false)}
+          ownerId={session.user.id}
+          onAdd={(participant) => {
+            setExtraParticipants((prev) => [...prev, participant]);
+            setShowAddParticipant(false);
+          }}
+        />
+      ) : null}
     </SafeAreaView>
   );
 }
@@ -148,5 +190,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.md,
     borderRadius: Radius.md,
     borderWidth: StyleSheet.hairlineWidth,
+  },
+  addParticipantRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing.xs,
+    paddingVertical: Spacing.sm,
+    marginTop: Spacing.sm,
   },
 });

@@ -5,6 +5,7 @@ import { useCallback, useState } from 'react';
 import { ActivityIndicator, Alert, Image, Platform, Pressable, ScrollView, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { AddParticipantModal } from '@/components/add-participant-modal';
 import { ImageViewerModal } from '@/components/image-viewer-modal';
 import { PayInfoModal } from '@/components/pay-info-modal';
 import { ThemedText } from '@/components/themed-text';
@@ -34,6 +35,7 @@ export default function EventDetailScreen() {
   const [updatingPayment, setUpdatingPayment] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [showReceipt, setShowReceipt] = useState(false);
+  const [showAddParticipant, setShowAddParticipant] = useState(false);
   const tint = useThemeColor({}, 'tint');
   const border = useThemeColor({}, 'border');
   const successColor = useThemeColor({}, 'success');
@@ -98,6 +100,22 @@ export default function EventDetailScreen() {
       Alert.alert('Error', 'No se pudo actualizar el estado de pago.');
       return;
     }
+    load();
+  };
+
+  const addParticipant = async (participant: { name: string; email: string | null; contactId: string | null }) => {
+    const { error } = await supabase.from('event_participants').insert({
+      event_id: event.id,
+      contact_id: participant.contactId,
+      name: participant.name,
+      email: participant.email,
+      is_owner: false,
+    });
+    if (error) {
+      Alert.alert('Error', 'No se pudo agregar al participante.');
+      return;
+    }
+    setShowAddParticipant(false);
     load();
   };
 
@@ -295,9 +313,15 @@ export default function EventDetailScreen() {
           ) : null}
         </Card>
 
-        <ThemedText type="defaultSemiBold" style={{ marginTop: Spacing.sm }}>
-          {isOwner ? 'Participantes' : 'Tu total'}
-        </ThemedText>
+        <ThemedView style={styles.participantsHeader}>
+          <ThemedText type="defaultSemiBold">{isOwner ? 'Participantes' : 'Tu total'}</ThemedText>
+          {isOwner ? (
+            <Pressable onPress={() => setShowAddParticipant(true)} style={styles.addParticipantButton} hitSlop={8}>
+              <IconSymbol name="plus.circle.fill" size={18} color={tint} />
+              <ThemedText style={{ color: tint, fontWeight: '600' }}>Agregar participante</ThemedText>
+            </Pressable>
+          ) : null}
+        </ThemedView>
 
         {(isOwner ? participants : myParticipant ? [myParticipant] : []).map((p) => {
           const total = totals.perParticipant[p.id] ?? { subtotal: 0, withTip: 0 };
@@ -363,6 +387,15 @@ export default function EventDetailScreen() {
         uri={event.receipt_photo_url}
         onClose={() => setShowReceipt(false)}
       />
+
+      {isOwner ? (
+        <AddParticipantModal
+          visible={showAddParticipant}
+          onClose={() => setShowAddParticipant(false)}
+          ownerId={event.owner_id}
+          onAdd={addParticipant}
+        />
+      ) : null}
 
       {!isOwner && myParticipant ? (
         <PayInfoModal
@@ -461,5 +494,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+  },
+  participantsHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: Spacing.sm,
+  },
+  addParticipantButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
   },
 });
