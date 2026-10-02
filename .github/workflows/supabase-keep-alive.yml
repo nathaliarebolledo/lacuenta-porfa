@@ -1,7 +1,7 @@
 name: Supabase keep-alive
 
 # El plan free de Supabase pausa proyectos sin actividad de API por ~7 días.
-# Este workflow hace una consulta liviana a la base de datos todos los días
+# Este workflow hace una consulta liviana a la base de datos 3 veces al día
 # para que nunca quede "inactivo" y el deploy en Vercel siga funcionando.
 #
 # Requiere dos secrets en GitHub (Settings → Secrets and variables → Actions):
@@ -13,7 +13,7 @@ name: Supabase keep-alive
 
 on:
   schedule:
-    - cron: '0 12 * * *' # todos los días a las 12:00 UTC
+    - cron: '0 */8 * * *' # 3 veces al día (00:00, 08:00 y 16:00 UTC)
   workflow_dispatch: {}
 
 jobs:
