@@ -1,6 +1,6 @@
 import { useFocusEffect } from 'expo-router';
 import { useCallback, useState } from 'react';
-import { Alert, Image, Pressable, ScrollView, StyleSheet } from 'react-native';
+import { Image, Pressable, ScrollView, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ThemedText } from '@/components/themed-text';
@@ -13,6 +13,7 @@ import { useAuth } from '@/contexts/auth-context';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { supabase } from '@/lib/supabase';
 import type { AccountType } from '@/types/database';
+import { showAlert } from '@/lib/alert';
 
 const ACCOUNT_TYPES: { value: AccountType; label: string }[] = [
   { value: 'checking', label: 'Cuenta corriente' },
@@ -62,11 +63,11 @@ export default function ProfileScreen() {
       .eq('id', session.user.id);
     setSaving(false);
     if (error) {
-      Alert.alert('Error', error.message);
+      showAlert('Error', error.message);
       return;
     }
     await refreshProfile();
-    Alert.alert('Listo', 'Tus datos bancarios se guardaron.');
+    showAlert('Listo', 'Tus datos bancarios se guardaron.');
   };
 
   return (

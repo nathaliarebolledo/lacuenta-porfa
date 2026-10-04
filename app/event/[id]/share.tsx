@@ -1,7 +1,7 @@
 import * as Clipboard from 'expo-clipboard';
 import { useEffect, useState } from 'react';
 import { useLocalSearchParams } from 'expo-router';
-import { Alert, Platform, Share, StyleSheet } from 'react-native';
+import { Platform, Share, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ThemedText } from '@/components/themed-text';
@@ -16,6 +16,14 @@ export default function ShareEventScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const [link, setLink] = useState<string | null>(null);
   const [eventName, setEventName] = useState('');
+  const [copyState, setCopyState] = useState<'idle' | 'copied' | 'error'>('idle');
+
+  // Inline feedback instead of Alert: Alert.alert is a no-op on web.
+  useEffect(() => {
+    if (copyState === 'idle') return;
+    const timer = setTimeout(() => setCopyState('idle'), 2000);
+    return () => clearTimeout(timer);
+  }, [copyState]);
 
   useEffect(() => {
     supabase
@@ -32,20 +40,31 @@ export default function ShareEventScreen() {
 
   const copy = async () => {
     if (!link) return;
-    await Clipboard.setStringAsync(link);
-    if (Platform.OS === 'web') {
-      Alert.alert('Copiado', 'El link se copió al portapapeles.');
+    try {
+      await Clipboard.setStringAsync(link);
+      setCopyState('copied');
+    } catch {
+      setCopyState('error');
     }
   };
 
   const share = async () => {
     if (!link) return;
     const message = `Hola! Te comparto la cuenta de "${eventName}" para que marques tu consumo: ${link}`;
-    if (Platform.OS === 'web' && (navigator as any).share) {
-      await (navigator as any).share({ title: 'La cuenta, porfa', text: message, url: link });
-    } else {
-      await Share.share({ message });
+    if (Platform.OS === 'web') {
+      // Desktop browsers often lack the Web Share API; fall back to copying the link.
+      if (!(navigator as any).share) {
+        await copy();
+        return;
+      }
+      try {
+        await (navigator as any).share({ title: 'La cuenta, porfa', text: message, url: link });
+      } catch {
+        // User closed the share sheet.
+      }
+      return;
     }
+    await Share.share({ message });
   };
 
   return (
@@ -63,7 +82,18 @@ export default function ShareEventScreen() {
 
         <ThemedView style={{ gap: Spacing.sm }}>
           <Button label="Compartir link" onPress={share} disabled={!link} />
-          <Button label="Copiar link" variant="secondary" onPress={copy} disabled={!link} />
+          <Button
+            label={
+              copyState === 'copied'
+                ? '¡Link copiado!'
+                : copyState === 'error'
+                  ? 'No se pudo copiar, cópialo a mano'
+                  : 'Copiar link'
+            }
+            variant="secondary"
+            onPress={copy}
+            disabled={!link}
+          />
         </ThemedView>
       </ThemedView>
     </SafeAreaView>

@@ -1,7 +1,7 @@
 import * as Clipboard from 'expo-clipboard';
 import { useFocusEffect, useLocalSearchParams } from 'expo-router';
 import { useCallback, useState } from 'react';
-import { ActivityIndicator, Alert, FlatList, Image, Pressable, ScrollView, StyleSheet } from 'react-native';
+import { ActivityIndicator, FlatList, Image, Pressable, ScrollView, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ImageViewerModal } from '@/components/image-viewer-modal';
@@ -17,6 +17,7 @@ import { useThemeColor } from '@/hooks/use-theme-color';
 import { formatBankInfoText, type BankInfo } from '@/lib/bank-info';
 import { formatMoney } from '@/lib/currency';
 import { supabase } from '@/lib/supabase';
+import { showAlert } from '@/lib/alert';
 
 type GuestEvent = {
   event: {
@@ -113,7 +114,7 @@ export default function GuestEventScreen() {
     });
     setUpdatingPayment(false);
     if (rpcError) {
-      Alert.alert('Error', 'No se pudo actualizar el estado de pago.');
+      showAlert('Error', 'No se pudo actualizar el estado de pago.');
       return;
     }
     setData((prev) =>
@@ -130,7 +131,6 @@ export default function GuestEventScreen() {
 
   const copyBankInfo = async (bank: BankInfo) => {
     await Clipboard.setStringAsync(formatBankInfoText(bank));
-    Alert.alert('Copiado', 'Los datos bancarios se copiaron al portapapeles.');
   };
 
   if (loading) {

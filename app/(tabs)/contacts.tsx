@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { useFocusEffect } from 'expo-router';
-import { ActivityIndicator, Alert, FlatList, Pressable, StyleSheet } from 'react-native';
+import { ActivityIndicator, FlatList, Pressable, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ThemedText } from '@/components/themed-text';
@@ -15,6 +15,7 @@ import { useAuth } from '@/contexts/auth-context';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { supabase } from '@/lib/supabase';
 import type { Contact } from '@/types/database';
+import { showAlert } from '@/lib/alert';
 
 export default function ContactsScreen() {
   const { session } = useAuth();
@@ -37,7 +38,7 @@ export default function ContactsScreen() {
   );
 
   const remove = (contact: Contact) => {
-    Alert.alert('Eliminar contacto', `¿Eliminar a ${contact.name}?`, [
+    showAlert('Eliminar contacto', `¿Eliminar a ${contact.name}?`, [
       { text: 'Cancelar', style: 'cancel' },
       {
         text: 'Eliminar',

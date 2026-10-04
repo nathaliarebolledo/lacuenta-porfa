@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { Alert, FlatList, Pressable, StyleSheet } from 'react-native';
+import { FlatList, Pressable, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { AddParticipantModal, type NewParticipant } from '@/components/add-participant-modal';
@@ -14,6 +14,7 @@ import { useAuth } from '@/contexts/auth-context';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { supabase } from '@/lib/supabase';
 import type { Contact } from '@/types/database';
+import { showAlert } from '@/lib/alert';
 
 export default function NewEventScreen() {
   const { session, profile } = useAuth();
@@ -50,7 +51,7 @@ export default function NewEventScreen() {
   const create = async () => {
     if (!session) return;
     if (!name.trim()) {
-      Alert.alert('Falta el nombre', 'Ponle un nombre al evento, ej. "Cuenta Bar La Virgen".');
+      showAlert('Falta el nombre', 'Ponle un nombre al evento, ej. "Cuenta Bar La Virgen".');
       return;
     }
     setSaving(true);
@@ -62,7 +63,7 @@ export default function NewEventScreen() {
 
     if (error || !event) {
       setSaving(false);
-      Alert.alert('Error', error?.message ?? 'No se pudo crear el evento.');
+      showAlert('Error', error?.message ?? 'No se pudo crear el evento.');
       return;
     }
 
@@ -94,7 +95,7 @@ export default function NewEventScreen() {
     setSaving(false);
 
     if (participantsError) {
-      Alert.alert('Error', participantsError.message);
+      showAlert('Error', participantsError.message);
       return;
     }
 

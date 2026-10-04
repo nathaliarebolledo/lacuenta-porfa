@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Alert, Modal, Pressable, StyleSheet, Switch } from 'react-native';
+import { Modal, Pressable, StyleSheet, Switch } from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
@@ -9,6 +9,7 @@ import { TextField } from '@/components/ui/text-field';
 import { Radius, Spacing } from '@/constants/theme';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { supabase } from '@/lib/supabase';
+import { showAlert } from '@/lib/alert';
 
 export type NewParticipant = {
   name: string;
@@ -69,7 +70,7 @@ export function AddParticipantModal({ visible, onClose, ownerId, onAdd }: AddPar
         .single();
       if (contactError) {
         setSaving(false);
-        Alert.alert('Error', 'No se pudo guardar el contacto.');
+        showAlert('Error', 'No se pudo guardar el contacto.');
         return;
       }
       contactId = data.id;

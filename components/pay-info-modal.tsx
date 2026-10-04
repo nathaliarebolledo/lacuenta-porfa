@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Modal, Pressable, StyleSheet } from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';
@@ -14,7 +15,8 @@ type PayInfoModalProps = {
   ownerBank: BankInfo | null;
   paymentStatus: 'pending' | 'paid';
   updating: boolean;
-  onCopy: () => void;
+  /** Should reject if the copy failed. */
+  onCopy: () => Promise<void>;
   onTogglePaid: () => void;
 };
 
@@ -33,6 +35,23 @@ export function PayInfoModal({
   const border = useThemeColor({}, 'border');
   const tint = useThemeColor({}, 'tint');
   const bank = ownerBank ?? {};
+  const [copyState, setCopyState] = useState<'idle' | 'copied' | 'error'>('idle');
+
+  // Inline feedback instead of Alert: Alert.alert is a no-op on web.
+  useEffect(() => {
+    if (copyState === 'idle') return;
+    const timer = setTimeout(() => setCopyState('idle'), 2000);
+    return () => clearTimeout(timer);
+  }, [copyState]);
+
+  const handleCopy = async () => {
+    try {
+      await onCopy();
+      setCopyState('copied');
+    } catch {
+      setCopyState('error');
+    }
+  };
 
   return (
     <Modal visible={visible} animationType="slide" transparent onRequestClose={onClose}>
@@ -46,20 +65,32 @@ export function PayInfoModal({
         </ThemedView>
 
         <ThemedView style={{ gap: 2 }}>
-          <ThemedText type="defaultSemiBold">{bank.full_name}</ThemedText>
-          {bank.rut_or_reference ? <ThemedText>RUT: {bank.rut_or_reference}</ThemedText> : null}
-          {bank.email ? <ThemedText>Correo: {bank.email}</ThemedText> : null}
-          {bank.bank_name ? <ThemedText>Banco: {bank.bank_name}</ThemedText> : null}
+          <ThemedText type="defaultSemiBold" selectable>{bank.full_name}</ThemedText>
+          {bank.rut_or_reference ? <ThemedText selectable>RUT: {bank.rut_or_reference}</ThemedText> : null}
+          {bank.email ? <ThemedText selectable>Correo: {bank.email}</ThemedText> : null}
+          {bank.bank_name ? <ThemedText selectable>Banco: {bank.bank_name}</ThemedText> : null}
           {bank.account_type ? (
             <ThemedText>{ACCOUNT_TYPE_LABELS[bank.account_type] ?? bank.account_type}</ThemedText>
           ) : null}
-          {bank.account_number ? <ThemedText>N° {bank.account_number}</ThemedText> : null}
+          {bank.account_number ? <ThemedText selectable>N° {bank.account_number}</ThemedText> : null}
           {!hasBankInfo(bank) ? (
             <ThemedText type="caption">La dueña del evento aún no cargó sus datos bancarios.</ThemedText>
           ) : null}
         </ThemedView>
 
-        {hasBankInfo(bank) ? <Button label="Copiar todos los datos" variant="secondary" onPress={onCopy} /> : null}
+        {hasBankInfo(bank) ? (
+          <Button
+            label={
+              copyState === 'copied'
+                ? '¡Datos copiados!'
+                : copyState === 'error'
+                  ? 'No se pudo copiar, cópialos a mano'
+                  : 'Copiar todos los datos'
+            }
+            variant="secondary"
+            onPress={handleCopy}
+          />
+        ) : null}
 
         <Button
           label={paymentStatus === 'paid' ? 'Marcar como pendiente' : 'Ya transferí, marcar como pagado'}

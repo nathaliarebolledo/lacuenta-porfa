@@ -1,6 +1,6 @@
 import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { useCallback, useState } from 'react';
-import { ActivityIndicator, Alert, FlatList, Pressable, StyleSheet, Switch } from 'react-native';
+import { ActivityIndicator, FlatList, Pressable, StyleSheet, Switch } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ThemedText } from '@/components/themed-text';
@@ -15,6 +15,7 @@ import { formatMoney } from '@/lib/currency';
 import { splitUnitPrice } from '@/lib/totals';
 import { supabase } from '@/lib/supabase';
 import type { ReceiptItem } from '@/types/database';
+import { showAlert } from '@/lib/alert';
 
 export default function ItemsScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -43,7 +44,7 @@ export default function ItemsScreen() {
   );
 
   const remove = (item: ReceiptItem) => {
-    Alert.alert('Eliminar producto', `¿Eliminar "${item.name}"?`, [
+    showAlert('Eliminar producto', `¿Eliminar "${item.name}"?`, [
       { text: 'Cancelar', style: 'cancel' },
       {
         text: 'Eliminar',

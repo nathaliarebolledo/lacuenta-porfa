@@ -2,7 +2,7 @@ import * as Clipboard from 'expo-clipboard';
 import * as ImagePicker from 'expo-image-picker';
 import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { useCallback, useState } from 'react';
-import { ActivityIndicator, Alert, Image, Platform, Pressable, ScrollView, StyleSheet } from 'react-native';
+import { ActivityIndicator, Image, Pressable, ScrollView, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { AddParticipantModal } from '@/components/add-participant-modal';
@@ -23,6 +23,7 @@ import { formatMoney } from '@/lib/currency';
 import { loadEventDetail, type EventDetail } from '@/lib/event-detail-api';
 import { supabase } from '@/lib/supabase';
 import type { PaymentStatus } from '@/types/database';
+import { showAlert } from '@/lib/alert';
 
 export default function EventDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -97,7 +98,7 @@ export default function EventDetailScreen() {
       .eq('id', participantId);
     setUpdatingPayment(false);
     if (error) {
-      Alert.alert('Error', 'No se pudo actualizar el estado de pago.');
+      showAlert('Error', 'No se pudo actualizar el estado de pago.');
       return;
     }
     load();
@@ -112,7 +113,7 @@ export default function EventDetailScreen() {
       is_owner: false,
     });
     if (error) {
-      Alert.alert('Error', 'No se pudo agregar al participante.');
+      showAlert('Error', 'No se pudo agregar al participante.');
       return;
     }
     setShowAddParticipant(false);
@@ -138,16 +139,16 @@ export default function EventDetailScreen() {
       // identical (no error) in both cases.
       const { data, error } = await supabase.from('events').delete().eq('id', event.id).select('id');
       if (error) {
-        Alert.alert('Error', error.message);
+        showAlert('Error', error.message);
         return;
       }
       if (!data?.length) {
-        Alert.alert('Error', 'No se pudo eliminar el evento (no tienes permiso o ya fue eliminado).');
+        showAlert('Error', 'No se pudo eliminar el evento (no tienes permiso o ya fue eliminado).');
         return;
       }
       router.replace('/');
     } catch (e) {
-      Alert.alert('Error', e instanceof Error ? e.message : 'No se pudo eliminar el evento.');
+      showAlert('Error', e instanceof Error ? e.message : 'No se pudo eliminar el evento.');
     } finally {
       setDeleting(false);
     }
@@ -156,14 +157,7 @@ export default function EventDetailScreen() {
   const deleteEvent = () => {
     const message = `¿Eliminar "${event.name}"? Se borra para todas las personas y no se puede deshacer.`;
 
-    if (Platform.OS === 'web') {
-      if (typeof window !== 'undefined' && window.confirm(message)) {
-        performDelete();
-      }
-      return;
-    }
-
-    Alert.alert('Eliminar evento', message, [
+    showAlert('Eliminar evento', message, [
       { text: 'Cancelar', style: 'cancel' },
       { text: 'Eliminar', style: 'destructive', onPress: performDelete },
     ]);
@@ -172,7 +166,6 @@ export default function EventDetailScreen() {
   const copyBankInfo = async () => {
     if (!detail?.ownerBank) return;
     await Clipboard.setStringAsync(formatBankInfoText(detail.ownerBank));
-    Alert.alert('Copiado', 'Los datos bancarios se copiaron al portapapeles.');
   };
 
   const pickReceipt = async () => {
@@ -208,7 +201,7 @@ export default function EventDetailScreen() {
       // the fallback if that fails (or she wants to add more later).
       router.push(`/event/${event.id}/scan`);
     } catch (e) {
-      Alert.alert('Error', e instanceof Error ? e.message : 'No se pudo subir la foto.');
+      showAlert('Error', e instanceof Error ? e.message : 'No se pudo subir la foto.');
     } finally {
       setUploading(false);
     }

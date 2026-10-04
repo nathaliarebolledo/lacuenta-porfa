@@ -1,6 +1,6 @@
 import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { useCallback, useState } from 'react';
-import { ActivityIndicator, Alert, FlatList, Pressable, StyleSheet, Switch } from 'react-native';
+import { ActivityIndicator, FlatList, Pressable, StyleSheet, Switch } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ThemedText } from '@/components/themed-text';
@@ -14,6 +14,7 @@ import { useThemeColor } from '@/hooks/use-theme-color';
 import { formatMoney } from '@/lib/currency';
 import { supabase } from '@/lib/supabase';
 import { splitUnitPrice } from '@/lib/totals';
+import { showAlert } from '@/lib/alert';
 
 type DraftItem = {
   name: string;
@@ -87,7 +88,7 @@ export default function ScanReceiptScreen() {
   const confirm = async () => {
     const valid = items.filter((it) => it.name.trim() && Number(it.price) > 0);
     if (!valid.length) {
-      Alert.alert('Nada que guardar', 'Revisa que al menos un producto tenga nombre y precio.');
+      showAlert('Nada que guardar', 'Revisa que al menos un producto tenga nombre y precio.');
       return;
     }
     setSaving(true);
@@ -115,7 +116,7 @@ export default function ScanReceiptScreen() {
     const { error: insertError } = await supabase.from('receipt_items').insert(rows);
     setSaving(false);
     if (insertError) {
-      Alert.alert('Error', insertError.message);
+      showAlert('Error', insertError.message);
       return;
     }
     router.replace(`/event/${id}/items`);
